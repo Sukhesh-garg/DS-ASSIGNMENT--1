@@ -1,34 +1,107 @@
 #include <iostream>
 using namespace std;
-int main() 
+// (a) Diagonal Matrix
+void diagonalMatrix(int n, int diag[])
 {
-    int arr[100][100], rows, cols;
-    cout << "Enter number of rows: " << endl;
-    cin >> rows;
-    cout << "Enter number of columns: " << endl;
-    cin >> cols;
-    cout << "Enter elements of the matrix: " << endl;
-    for (int i = 0; i < rows; i++)
-        for (int j = 0; j < cols; j++)
-            cin >> arr[i][j];
-
-    // Sum of each row
-
-    for (int i = 0; i < rows; i++) 
+    cout << "Diagonal Matrix: " << endl;
+    for (int i = 0; i < n; i++)
     {
-        int rowSum = 0;
-        for (int j = 0; j < cols; j++)
-            rowSum += arr[i][j];
-        cout << "Sum of row " << i + 1 << " = " << rowSum << endl;
+        for (int j = 0; j < n; j++)
+        {
+            if (i == j)
+                cout << diag[i] << " ";
+            else
+                cout << 0 << " ";
+        }
+        cout << endl;
     }
-
-    // Sum of each column
-    
-    for (int j = 0; j < cols; j++) {
-        int colSum = 0;
-        for (int i = 0; i < rows; i++)
-            colSum += arr[i][j];
-        cout << "Sum of column " << j + 1 << " = " << colSum << endl;
+}
+// (b) Tri-diagonal Matrix
+void tridiagonalMatrix(int n, int tri[])
+{
+    cout << "Tridiagonal Matrix: " << endl;
+    int k = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (i == j || i == j + 1 || i + 1 == j)
+                cout << tri[k++] << " ";
+            else
+                cout << 0 << " ";
+        }
+        cout << endl;
     }
+}
+// (c) Lower Triangular
+void lowerTriangular(int n, int lower[])
+{
+    cout << "Lower Triangular Matrix: " << endl;
+    int k = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (j <= i)
+                cout << lower[k++] << " ";
+            else
+                cout << 0 << " ";
+        }
+        cout << endl;
+    }
+}
+// (d) Upper Triangular
+void upperTriangular(int n, int upper[])
+{
+    cout << "Upper Triangular Matrix: " << endl;
+    int k = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (j >= i)
+                cout << upper[k++] << " ";
+            else
+                cout << 0 << " ";
+        }
+        cout << endl;
+    }
+}
+// (e) Symmetric Matrix
+void symmetricMatrix(int n, int sym[])
+{
+    cout << "Symmetric Matrix: " << endl;
+    int k = 0;
+    int max[10][10];
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= i; j++)
+        {
+            max[i][j] = sym[k];
+            max[j][i] = sym[k];
+            k++;
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cout << max[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+int main()
+{
+    int diag[3] = {1, 2, 3};
+    diagonalMatrix(3, diag);
+    int tri[5] = {1, 2, 3, 4, 5};
+    tridiagonalMatrix(3, tri);
+    int lower[4] = {1, 2, 3, 4};
+    lowerTriangular(3, lower);
+    int upper[5] = {1, 2, 3, 4, 5};
+    upperTriangular(3, upper);
+    int sym[5] = {1, 2, 3, 4, 5};
+    symmetricMatrix(3, sym);
     return 0;
 }

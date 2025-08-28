@@ -1,35 +1,23 @@
-
 #include <iostream>
 using namespace std;
-int main() {
-    int arr[100], n;
-    cout << "Enter number of elements: " << endl;
-    cin >> n;
-
-    cout << "Enter elements: " << endl;
-    for (int i = 0; i < n; i++)
+int main()
+{
+    int arr[7] = {34, 45, 65, 30, 12, 6, 88};
+    int n = 7;
+    for (int i = 0; i < n - 1; i++)
     {
-        cin >> arr[i];
-    }
-    for (int i = 0; i < n; i++) 
-    {
-        for (int j = i + 1; j < n; j++) 
+        for (int j = 0; j < n - i - 1; j++)
         {
-            if (arr[i] == arr[j]) 
+            if (arr[j] > arr[j + 1])
             {
-                for (int k = j; k < n - 1; k++)
-                {
-                    arr[k] = arr[k + 1];
-                }
-                n--;
-                j--; 
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
             }
         }
     }
-
-    cout << "Array after removing duplicates: ";
+    cout << "Sorted array: ";
     for (int i = 0; i < n; i++)
         cout << arr[i] << " ";
-
     return 0;
 }

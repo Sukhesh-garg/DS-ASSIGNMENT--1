@@ -1,32 +1,21 @@
 #include <iostream>
 using namespace std;
-int main() {
-    int mat[10][10], trans[10][10], rows, cols;
-    cout << "Enter rows and columns: " << endl;
-    cin >> rows >> cols;
-    cout << "Enter matrix elements:"<< endl;
-    for (int i = 0; i < rows; i++)
+int main()
+{
+    string str, result;
+    cout << "Enter a string: ";
+    getline(cin, str);
+    for (int i = 0; i < str.length(); i++)
     {
-        for (int j = 0; j < cols; j++)
+        if (str[i] != 'a' && str[i] != 'A' &&
+            str[i] != 'e' && str[i] != 'E' &&
+            str[i] != 'i' && str[i] != 'I' &&
+            str[i] != 'o' && str[i] != 'O' &&
+            str[i] != 'u' && str[i] != 'U')
         {
-            cin >> mat[i][j];
+            result += str[i];
         }
     }
-    for (int i = 0; i < rows; i++)
-    {
-        for (int j = 0; j < cols; j++)
-        {
-            trans[j][i] = mat[i][j];
-        }
-    cout << "Transpose of the matrix: " << endl;
-    }
-    for (int i = 0; i < cols; i++) 
-    {
-        for (int j = 0; j < rows; j++)
-        {
-            cout << trans[i][j] << " ";
-        }
-        cout << endl;
-    }
+    cout << "String after removing vowels: " << result << endl;
     return 0;
 }
