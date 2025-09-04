@@ -2,7 +2,7 @@
 using namespace std;
 int main()
 {
-    int arr[7] = {34, 45, 65, 30, 12, 6, 88};
+    int arr[8] = {34, 55, 65, 30, 12, 6, 88};
     int n = 7;
     for (int i = 0; i < n - 1; i++)
     {
