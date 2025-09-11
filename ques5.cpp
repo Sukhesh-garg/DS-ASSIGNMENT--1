@@ -1,107 +1,101 @@
 #include <iostream>
 using namespace std;
-// (a) Diagonal Matrix
-void diagonalMatrix(int n, int diag[])
+
+class stackk
 {
-    cout << "Diagonal Matrix: " << endl;
-    for (int i = 0; i < n; i++)
+private:
+    int arr[100];
+    int top;
+
+public:
+    stackk() { top = -1; }
+
+    bool push(int value)
     {
-        for (int j = 0; j < n; j++)
+        if (top >= 100 - 1)
         {
-            if (i == j)
-                cout << diag[i] << " ";
-            else
-                cout << 0 << " ";
+            cout << "stackk Overflow" << endl;
+            return false;
         }
-        cout << endl;
+        top++;
+        arr[top] = value;
+        return true;
     }
-}
-// (b) Tri-diagonal Matrix
-void tridiagonalMatrix(int n, int tri[])
+
+    int pop()
+    {
+        if (top < 0)
+        {
+            cout << "stackk Underflow" << endl;
+            return 0;
+        }
+        return arr[top--];
+    }
+
+    bool isEmpty()
+    {
+        return top < 0;
+    }
+};
+int results(char *expressions)
 {
-    cout << "Tridiagonal Matrix: " << endl;
-    int k = 0;
-    for (int i = 0; i < n; i++)
+    stackk s;
+
+    for (int i = 0; expressions[i] != 0; i++)
     {
-        for (int j = 0; j < n; j++)
+        char c = expressions[i];
+        if (c == ' ')
         {
-            if (i == j || i == j + 1 || i + 1 == j)
-                cout << tri[k++] << " ";
-            else
-                cout << 0 << " ";
+            continue;
         }
-        cout << endl;
+        if (c >= '0' && c <= '9')
+        {
+            int num = c - '0';
+            s.push(num);
+        }
+        else if (c == '+' || c == '-' || c == '*' || c == '/')
+        {
+            int num2 = s.pop();
+            int num1 = s.pop();
+            int result;
+            if (c == '+')
+            {
+                result = num1 + num2;
+            }
+            else if (c == '-')
+            {
+                result = num1 - num2;
+            }
+            else if (c == '*')
+            {
+                result = num1 * num2;
+            }
+            else if (c == '/')
+            {
+                if (num2 == 0)
+                {
+                    cout << "Division by zero!" << endl;
+                    return 0;
+                }
+                result = num1 / num2;
+            }
+            s.push(result);
+        }
     }
+    if (!s.isEmpty())
+    {
+        return s.pop();
+    }
+    return 0;
 }
-// (c) Lower Triangular
-void lowerTriangular(int n, int lower[])
-{
-    cout << "Lower Triangular Matrix: " << endl;
-    int k = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (j <= i)
-                cout << lower[k++] << " ";
-            else
-                cout << 0 << " ";
-        }
-        cout << endl;
-    }
-}
-// (d) Upper Triangular
-void upperTriangular(int n, int upper[])
-{
-    cout << "Upper Triangular Matrix: " << endl;
-    int k = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (j >= i)
-                cout << upper[k++] << " ";
-            else
-                cout << 0 << " ";
-        }
-        cout << endl;
-    }
-}
-// (e) Symmetric Matrix
-void symmetricMatrix(int n, int sym[])
-{
-    cout << "Symmetric Matrix: " << endl;
-    int k = 0;
-    int max[10][10];
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j <= i; j++)
-        {
-            max[i][j] = sym[k];
-            max[j][i] = sym[k];
-            k++;
-        }
-    }
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            cout << max[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
+
 int main()
 {
-    int diag[3] = {1, 2, 3};
-    diagonalMatrix(3, diag);
-    int tri[5] = {1, 2, 3, 4, 5};
-    tridiagonalMatrix(3, tri);
-    int lower[4] = {1, 2, 3, 4};
-    lowerTriangular(3, lower);
-    int upper[5] = {1, 2, 3, 4, 5};
-    upperTriangular(3, upper);
-    int sym[5] = {1, 2, 3, 4, 5};
-    symmetricMatrix(3, sym);
+    char expressions[100];
+    cout << "Enter a postfix expression: ";
+    cin.getline(expressions, 100);
+    int result = results(expressions);
+    cout << "Result: " << result << endl;
+
     return 0;
 }

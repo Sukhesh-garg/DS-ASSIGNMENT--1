@@ -1,60 +1,92 @@
 #include <iostream>
 using namespace std;
-void duplicateTwos(int arr[100], int size)
+
+class stackk
 {
-    int count = 0;
-    for (int i = 0; i < size; i++)
+private:
+    static const int MAX = 100;
+    int arr[MAX];
+    int top;
+
+public:
+    stackk() { top = -1; }
+    bool push(int value)
     {
-        if (arr[i] == 2)
+        if (top >= MAX - 1)
         {
-            count++;
+            cout << "stackk Overflow" << endl;
+            return false;
         }
-    }
-    int ending = size - 1 + count;
-    if (ending >= 100)
-    {
-        ending = 99;
+        arr[++top] = value;
+        return true;
     }
 
-    for (int i = size - 1; i >= 0 && ending >= 0; i--)
+    int pop()
     {
-        if (arr[i] == 2)
+        if (top < 0)
         {
-            if (ending < 100)
-            {
-                arr[ending] = 2;
-                ending--;
-            }
-            if (ending < 100)
-            {
-                arr[ending] = 2;
-                ending--;
-            }
+            cout << "stackk Underflow" << endl;
+            return -1;
         }
-        else
+        return arr[top--];
+    }
+
+    int peek()
+    {
+        if (top < 0)
         {
-            if (ending < 100)
-            {
-                arr[ending] = arr[i];
-                ending--;
-            }
+            return -1;
+        }
+        return arr[top];
+    }
+
+    bool isEmpty()
+    {
+        return top < 0;
+    }
+};
+
+bool canSortArray(int A[], int n)
+{
+    stackk s;
+    int lastB = -2147483648;
+    for (int i = 0; i < n; i++)
+    {
+        s.push(A[i]);
+        while (!s.isEmpty() && s.peek() >= lastB)
+        {
+            lastB = s.pop();
         }
     }
+    while (!s.isEmpty())
+    {
+        if (s.peek() < lastB)
+        {
+            return false;
+        }
+        lastB = s.pop();
+    }
+    return true;
 }
 
 int main()
 {
-    int arr[100] = {1, 2, 3, 2, 4};
-    int size = 5;
-    duplicateTwos(arr, size);
-
-    for (int i = 0; i < size + size; i++)
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+    int A[100];
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; i++)
     {
-        if (arr[i] != 0 || i < size)
-        {
-            cout << arr[i] << " ";
-        }
+        cin >> A[i];
     }
-    cout << "\n";
+    if (canSortArray(A, n))
+    {
+        cout << "Yes, array can be sorted into B in ascending order" << endl;
+    }
+    else
+    {
+        cout << "No, array cannot be sorted into B in ascending order" << endl;
+    }
     return 0;
 }

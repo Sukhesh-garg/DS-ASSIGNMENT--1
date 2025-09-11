@@ -1,47 +1,113 @@
 #include <iostream>
 using namespace std;
-int binarySearch(int arr[], int n, int target)
+class stackk
 {
-    int left = 0, right = n - 1;
-    while (left <= right)
+    int arr[100], top;
+
+public:
+    stackk()
     {
-        int mid = (left + right) / 2;
-        if (arr[mid] == target)
-            return mid;
-        else if (arr[mid] < target)
-            left = mid + 1;
+        top = -1;
+    }
+    void push(int x)
+    {
+        if (top == 100 - 1)
+        {
+            cout << "stackk Overflow" << endl;
+        }
         else
-            right = mid - 1;
+        {
+            top++;
+            arr[top] = x;
+            cout << x << " pushed into stackk" << endl;
+        }
     }
-    return -1;
-}
-int linearSearch(int arr[], int n, int target)
-{
-    for (int i = 0; i < n; i++)
+    void pop()
     {
-        if (arr[i] == target)
-            return i;
+        if (top == -1)
+        {
+            cout << "stackk Underflow!" << endl;
+        }
+        else
+        {
+            cout << arr[top] << " popped from stackk" << endl;
+            top = top - 1;
+        }
     }
-    return -1;
-}
+    bool isEmpty()
+    {
+        return (top == -1);
+    }
+    bool isFull()
+    {
+        return (top == 100 - 1);
+    }
+    void peek()
+    {
+        if (top == -1)
+        {
+            cout << "stackk is Empty!\n";
+        }
+        else
+        {
+            cout << "Top element is: " << arr[top] << endl;
+        }
+    }
+    void display()
+    {
+        if (top == -1)
+        {
+            cout << "stackk is Empty!\n";
+        }
+        else
+        {
+            cout << "stackk elements are: ";
+            for (int i = top; i >= 0; i--)
+            {
+                cout << arr[i] << " ";
+            }
+            cout << endl;
+        }
+    }
+};
 int main()
 {
-    int arr[7] = {3, 10, 15, 18, 66, 78, 89};
-    int n = 7;
-    int target;
-    cout << "Enter element to search: ";
-    cin >> target;
-    cout << "Linear Search Result: ";
-    int result1 = linearSearch(arr, n, target);
-    if (result1 != -1)
-        cout << "Element found at index " << result1 << endl;
-    else
-        cout << "Not found" << endl;
-    cout << "Binary Search Result: ";
-    int result2 = binarySearch(arr, n, target);
-    if (result2 != -1)
-        cout << "Element found at index " << result2 << endl;
-    else
-        cout << "Not found" << endl;
+    stackk st;
+    int choice, val;
+    do
+    {
+        cout << "Menu" << endl;
+        cout << "1. Push\n2. Pop\n3. Peek\n4. Display\n5. isEmpty\n6. isFull\n7. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter value to push: ";
+            cin >> val;
+            st.push(val);
+            break;
+        case 2:
+            st.pop();
+            break;
+        case 3:
+            st.peek();
+            break;
+        case 4:
+            st.display();
+            break;
+        case 5:
+            cout << (st.isEmpty() ? "stackk is Empty\n" : "stackk is Not Empty\n");
+            break;
+        case 6:
+            cout << (st.isFull() ? "stackk is Full\n" : "stackk is Not Full\n");
+            break;
+        case 7:
+            cout << "Exiting...\n";
+            break;
+        default:
+            cout << "Invalid Choice!\n";
+        }
+    } while (choice != 7);
     return 0;
 }

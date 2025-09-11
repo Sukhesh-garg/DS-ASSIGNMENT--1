@@ -1,34 +1,83 @@
 #include <iostream>
-#include <cstring>
 using namespace std;
 
-int areAnagrams(char str1[100], char str2[100])
+class stackk
 {
+private:
+    int arr[100];
+    int top;
 
-    int len1 = strlen(str1);
-    int len2 = strlen(str2);
+public:
+    stackk() { top = -1; }
+    bool push(int value)
+    {
+        if (top >= 100 - 1)
+        {
+            cout << "stackk Overflow" << endl;
+            return false;
+        }
+        arr[++top] = value;
+        return true;
+    }
 
-    if (len1 != len2)
-        return 0;
-    int freq[26] = {0};
-    for (int i = 0; i < len1; i++)
+    int pop()
     {
-        freq[str1[i] - 'a']++;
-        freq[str2[i] - 'a']--;
+        if (top < 0)
+        {
+            cout << "stackk Underflow" << endl;
+            return -1;
+        }
+        return arr[top--];
     }
-    for (int i = 0; i < 26; i++)
+
+    int peek()
     {
-        if (freq[i] != 0)
-            return 0;
+        if (top < 0)
+        {
+            return -1;
+        }
+        return arr[top];
     }
-    return 1;
+
+    bool isEmpty()
+    {
+        return top < 0;
+    }
+};
+
+void findNextGreater(int arr[], int n, int result[])
+{
+    stackk s;
+    for (int i = 0; i < n; i++)
+    {
+        result[i] = -1;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        while (!s.isEmpty() && arr[s.peek()] < arr[i])
+        {
+            result[s.pop()] = arr[i];
+        }
+        s.push(i);
+    }
 }
 
 int main()
 {
-    char str1[100] = "listen";
-    char str2[100] = "silent";
-    int result = areAnagrams(str1, str2);
-    cout << result << endl;
+    int n;
+    cout << "Enter the size of the array: " << endl;
+    cin >> n;
+    int arr[100], result[100];
+    cout << "Enter " << n << " elements: " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+    findNextGreater(arr, n, result);
+    cout << "Next Greater Elements: ";
+    for (int i = 0; i < n; i++)
+    {
+        cout << result[i] << " " << endl;
+    }
     return 0;
 }

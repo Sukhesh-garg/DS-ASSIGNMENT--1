@@ -1,32 +1,81 @@
 #include <iostream>
 using namespace std;
-int countPairsWithDiffK(int arr[], int n, int k)
+
+class stackk
 {
-    int count = 0;
-    for (int i = 0; i < n; i++)
+private:
+    int arr[100];
+    int top;
+
+public:
+    stackk() { top = -1; }
+
+    bool push(int value)
     {
-        for (int j = i + 1; j < n; j++)
+        if (top >= 100 - 1)
         {
-            int diff = arr[i] - arr[j];
-            if (diff < 0)
-            {
-                diff = -diff;
-            }
-            if (diff == k)
-            {
-                count++;
-            }
+            cout << "stackk Overflow" << endl;
+            return false;
         }
+        arr[++top] = value;
+        return true;
     }
 
-    return count;
+    int pop()
+    {
+        if (top < 0)
+        {
+            cout << "stackk Underflow" << endl;
+            return -1;
+        }
+        return arr[top--];
+    }
+
+    int peek()
+    {
+        if (top < 0)
+        {
+            return -1;
+        }
+        return arr[top];
+    }
+
+    bool isEmpty()
+    {
+        return top < 0;
+    }
+};
+
+void findNearestSmaller(int A[], int n, int result[])
+{
+    stackk s;
+    for (int i = 0; i < n; i++)
+    {
+        while (!s.isEmpty() && s.peek() >= A[i])
+        {
+            s.pop();
+        }
+        result[i] = s.isEmpty() ? -1 : s.peek();
+        s.push(A[i]);
+    }
 }
+
 int main()
 {
-    int arr[] = {1, 3, 4, 5, 2};
-    int n = 5;
-    int k = 2;
-    int result = countPairsWithDiffK(arr, n, k);
-    cout << result << endl;
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+    int A[100], result[100];
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; i++)
+    {
+        cin >> A[i];
+    }
+    findNearestSmaller(A, n, result);
+    cout << "Nearest smaller elements: ";
+    for (int i = 0; i < n; i++)
+    {
+        cout << result[i] << " " << endl;
+    }
     return 0;
 }
